@@ -1,14 +1,14 @@
 ---
 TOCTitle: Tasks Appendix
+ContentId: 6DCA48F5-0566-4AEB-9C4C-CCBBA2945347
 PageTitle: Tasks Appendix
-DateApproved: 10/12/2015
+DateApproved: 12/14/2016
 MetaDescription: Additional info for using task runners in Visual Studio Code.
-MetaTags:
 ---
 
 # Appendix
 
-This is additional information for [tasks](tasks).
+This is additional information for [tasks](/docs/editor/tasks.md).
 
 ## Schema for tasks.json
 
@@ -34,7 +34,7 @@ interface TaskConfiguration extends BaseTaskConfiguration {
 	osx?: BaseTaskConfiguration;
 
 	/**
-	 * Linux speciif task configuration
+	 * Linux specific task configuration
 	 */
 	linux?: BaseTaskConfiguration;
 }
@@ -55,6 +55,13 @@ interface BaseTaskConfiguration {
 	 */
 	isShellCommand?: boolean;
 
+	/**
+	 * Specifies whether a global command is watching the filesystem. A task.json
+	 * file can either contain a global isWatching property or a tasks property
+	 * but not both.
+	 */
+	isWatching?: boolean;
+	
 	/**
 	 * The command options used when the command is executed. Can be omitted.
 	 */
@@ -92,7 +99,7 @@ interface BaseTaskConfiguration {
 	taskSelector?:string;
 
 	/**
-	 * The problem matcher to used if a global command is exucuted (e.g. no tasks
+	 * The problem matcher to be used if a global command is executed (e.g. no tasks
 	 * are defined). A tasks.json file can either contain a global problemMatcher
 	 * property or a tasks property but not both.
 	 */
@@ -149,6 +156,11 @@ export interface TaskDescription {
 	 */
 	isTestCommand?: boolean;
 
+	/**
+	 * Whether the executed command is kept alive and is watching the file system.
+	 */
+	isWatching?:boolean;
+	
 	/**
 	 * Controls whether the output view of the running tasks is brought to front or not.
 	 * See BaseTaskConfiguration#showOutput for details.
@@ -219,6 +231,35 @@ export interface ProblemMatcher {
 	 * problems spread over multiple lines.
 	 */
 	pattern?: string | ProblemPattern | ProblemPattern[];
+
+	/**
+	 * Additional information used to detect when a background task (like a watching task in Gulp)
+	 * is active.
+	 */
+	watching?: WatchingMatcher;
+}
+
+/**
+ * A description to track the start and end of a watching task.
+ */
+export interface WatchingMatcher {
+
+	/**
+	 * If set to true the watcher is in active mode when the task
+	 * starts. This is equals of issuing a line that matches the
+	 * beginPattern.
+	 */
+	activeOnStart?: boolean;
+
+	/**
+	 * If matched in the output the start of a watching task is signaled.
+	 */
+	beginsPattern?: string;
+
+	/**
+	 * If matched in the output the end of a watching task is signaled.
+	 */
+	endsPattern?: string;
 }
 
 export interface ProblemPattern {
@@ -231,28 +272,24 @@ export interface ProblemPattern {
 
 	/**
 	 * The match group index of the filename.
-	 * If omitted 1 is used.
 	 */
-	file?: number;
+	file: number;
 
 	/**
 	 * The match group index of the problems's location. Valid location
 	 * patterns are: (line), (line,column) and (startLine,startColumn,endLine,endColumn).
-	 * If omitted the line and colum properties are used.
+	 * If omitted the line and column properties are used.
 	 */
 	location?: number;
 
 	/**
 	 * The match group index of the problem's line in the source file.
-	 *
-	 * Defaults to 2.
+	 * Can only be omitted if location is specified.
 	 */
 	line?: number;
 
 	/**
 	 * The match group index of the problem's column in the source file.
-	 *
-	 * Defaults to 3.
 	 */
 	column?: number;
 
@@ -286,10 +323,9 @@ export interface ProblemPattern {
 	code?: number;
 
 	/**
-	 * The match group index of the message. If omitted it defaults
-	 * to 4 if location is specified. Otherwise it defaults to 5.
+	 * The match group index of the message. Defaults to 0.
 	 */
-	message?: number;
+	message: number;
 
 	/**
 	 * Specifies if the last pattern in a multi line problem matcher should

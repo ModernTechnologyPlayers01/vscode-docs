@@ -11,7 +11,7 @@ Thank you for your interest in VS Code documentation!
 * [Repository organization](#repository-organization)
 * [Branches](#branches)
 * [Authoring Tools](#authoring-tools)
-* [How to use markdown to format your topic](#how-to-use-markdown-to-format-your-topic)
+* [How to use Markdown to format your topic](#how-to-use-markdown-to-format-your-topic)
 * [Topic Metadata](#topic-metadata)
 * [Formatting](#formatting)
 
@@ -39,8 +39,12 @@ The content in this repository follows the organization of documentation at <htt
 This repository contains the following folders:
 
 * \editor
+* \customization
 * \languages
 * \runtimes
+* \extensions
+* \extensionAPI
+* \tools
 * \supporting
 
 Within these folders you'll find the Markdown files used for the content. Each of these folders also contains an \images folder that references the images (such as screenshots) used in the topics.
@@ -77,27 +81,48 @@ Topic metadata enables certain functionalities for the topics such as table of c
 
 ## Formatting 
 
-**Headings & Right Nav**
+### Headings & Right Nav
 
 H2 subheadings `##` end up in the right hand jump list for the document (this happens in our compile script).  It's a good idea to include h2 subheadings to help users get an overview of the doc and quickly navigate to the major topics.
 
-**Links**
+### Text formatting
 
-For links within our own documentation, use a site relative link like `/docs/editor/codebasics`.
+Use bold for VS Code commands and UI elements.
 
->For example: `[Why VS Code](/docs/editor/whyvscode)` - links to the **Why Visual Studio Code** page
+    **Extensions: Install Extension**
+    **Debug Console**
 
->**Caution:** Do not include the .md file extension.
+Limit the use of bold for emphasis unless it is crucial to get the user's attention.
 
-**Bookmarks**
+Use Markdown highlight for settings, filename and JSON attributes.
 
-To provide links to h2 subheadings (Markdown ##), the format is `[Link Text](page#_subheading-title)`.  
+    `files.exclude`
+    `tasks.json`
+    `preLaunchTask`
 
-Note the subheading title is lowercase and subheading title words are separated by '-' dashes.  The separator before the subheading name is an '_' underscore.  The page is unnecessary if the subheading is on the same page.
+Use '>' to show menu sequence.
 
->For example: `[More on documentation intent](#_documentation-intent)` - links to the **Documentation intent** subheading above.
+    **File** > **Preferences** > **User Settings**
+    **View** > **Command Palette**
 
-**Images**
+### Links
+
+For links within our own documentation, use a site relative link like `/docs/editor/codebasics.md`.
+
+>For example: `[Why VS Code](/docs/editor/whyvscode.md)` - links to the **Why Visual Studio Code** page
+
+<strike>>**Caution:** Do not include the .md file extension.</strike>
+>**Correction:** For this repo to ease content development you should add the .md suffix.  We will parse these out for the website deployment.
+
+### Bookmarks
+
+To provide links to h2 subheadings (Markdown ##), the format is `[Link Text](page#subheading-title)`.  
+
+Note the subheading title is lowercase and subheading title words are separated by '-' dashes.  
+
+>For example: `[More on documentation intent](#documentation-intent)` - links to the **Documentation intent** subheading above.
+
+### Images
 
 Images are important to bring the product to life - even if people can't try the product these really help them see what they are missing.
 
@@ -107,7 +132,7 @@ When you link to an image, the path and filename are case-sensitive.  The conven
 
 >For example: `![Debug Breakpoints](images/debugging/breakpoints.png)`
 
-**Key bindings**
+### Key bindings
 
 The VS Code portal is able to show the correct key bindings depending on the reader's operating system (Mac, Windows or Linux).  
 
@@ -123,11 +148,11 @@ If you are listing out multiple key bindings, you can use a table.
 >Copy|`kb(editor.action.clipboardCopyAction)`
 >Paste|`kb(editor.action.clipboardPasteActionn)`
 
-**Source Code**
+### Source Code
 
-For source code we use the fenced code block notation "```".
+For source code we use the fenced code block notation ```` ``` ````.
 
->**Note:** To get colorization, add a language modifier e.g. "```json" or "```javascript".
+>**Note:** To get colorization, add a language modifier e.g. ```` ```json ```` or ```` ```javascript ````.
 
 Some JavaScript code...
 
